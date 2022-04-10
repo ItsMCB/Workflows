@@ -1,16 +1,11 @@
 #!/bin/bash
 
-
-# Todo
-# Extra metadata option
-# Multiple output format templates
-
 # Set default variables
 videoExt="mp4"
 audioExt="m4a"
 downloadLocation="~/Desktop/"
 outputFormat="%(title)s.%(ext)s"
-extraMetadataFlags='--add-metadata --xattrs --embed-thumbnail --user-agent "Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0"'
+extraMetadataFlags='--embed-metadata --add-metadata --xattrs --embed-thumbnail'
 
 # Functions
 branding() {
@@ -22,7 +17,7 @@ home() {
     branding
     echo "1.) Download Video | V"
     echo "2.) Download Audio | A"
-    echo "3.) Quit Program | Q"
+    echo "4.) Quit Program | Q"
     read -p "" ans;
     case $ans in
         v|v)
@@ -31,7 +26,6 @@ home() {
             downloadAudio;;
         *)
             clear
-            echo 'Cya!\n'
             exit;;
     esac
 }
@@ -64,18 +58,19 @@ getAudoExt() {
     echo "Using audio extension '${audioExt}'..."
 }
 
+
 downloadVideo() {
     getVideoExt
     echo "URL of video to download:"
     read -p "" ans;
     echo "Downloading best ${videoExt} format available. If there are none, find the best in another format."
-    yt-dlp -f "bestvideo[ext=${videoExt}]+bestaudio[ext=${audioExt}]/best[ext=${videoExt}]/best" -o ${downloadLocation}${outputFormat} $ans
+    yt-dlp -f "bestvideo[ext=${videoExt}]+bestaudio[ext=${audioExt}]/best[ext=${videoExt}]/best" -o ${downloadLocation}${outputFormat} ${extraMetadataFlags} $ans
 }
 
 downloadAudio() {
     echo "Please provide a URL to be converted into an mp3"
     read -p "" ans;
-    yt-dlp -f 'bestaudio[ext=${audioExt}]/best' -o ${downloadLocation}${outputFormat} ${extraMetadataFlags} $ans # also try using m4a
+    yt-dlp -f "bestaudio[ext=${audioExt}]/best" -o ${downloadLocation}${outputFormat} ${extraMetadataFlags} $ans
 }
 
 home
