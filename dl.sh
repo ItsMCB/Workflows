@@ -49,11 +49,13 @@ askVideoExt() {
 }
 
 askAudioExt() {
-    prompt "What target audio extension?" "M4A [1]\nOther [Input]"
+    prompt "What target audio extension?" "MP3 [Enter]\nM4A [1]\nOther [Input]"
     read -p "" ans;
     case $ans in
         1|"1")
             audioExt="m4a";;
+        ""|\n)
+            audioExt=$audioExt;;
         *)
             audioExt=$ans;;
     esac
@@ -109,7 +111,7 @@ dl() {
         download="bestvideo[ext=${videoExt}]+bestaudio[ext=${audioExt}]/best[ext=${videoExt}]/best"
     else
         askAudioExt
-        download="bestaudio[ext=${audioExt}]/best"
+        download="bestaudio[ext=${audioExt}]/bestaudio"
     fi
     # Check download location and output format
     askDownloadLocation
