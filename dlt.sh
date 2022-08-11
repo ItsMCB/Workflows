@@ -101,24 +101,28 @@ setTargetVideoExtension() {
     numeralPrompt "What target video extension?" "*"
     read choice;
     videoExt=$choice;
+    home
 }
 
 setTargetAudioExtension() {
     numeralPrompt "What target audio extension?" "*"
     read choice;
     audioExt=$choice;
+    home
 }
 
 setDownloadLocation() {
     numeralPrompt "What download location?" "*"
     read choice;
     downloadLocation=$choice;
+    home
 }
 
 setFileNameFormat() {
     numeralPrompt "What file name format?" "*"
     read choice;
     fileNameFormat=$choice
+    home
 }
 
 download() {
@@ -146,7 +150,7 @@ download() {
     downloadArgs="${downloadArgs} ${url}"
     echo "Final args: $downloadArgs"
     yt-dlp -f ${downloadArgs}
-    downloadArgs
+    downloadArgs=""
     home
 
 }
